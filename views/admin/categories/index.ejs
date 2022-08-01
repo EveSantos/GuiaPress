@@ -1,11 +1,12 @@
 <%- include ('../../partials/header.ejs') %>
 <%- include ('../../partials/navbar.ejs') %> 
     
-<div class="container">
-    <hr>
+<div class="mt-3 container">
     <h2>Categorias</h2>
+    <a href="/admin/categories/new" class="btn-success btn">Nova categoria</a>
 
-    <table class="table mt-3 table-bordered">
+
+    <table class="table mt-4 table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
@@ -14,14 +15,21 @@
                 <th>Açoes</th>
             </tr>
         </thead>    
-        <tbody>         
+        <tbody class="">         
 
             <% categories.forEach(category => { %>
                 <tr>
-                    <th><%=category.id%></th>
-                    <th><%=category.title%></th>
-                    <th><%=category.slug %></th>
-                    <th></th>
+                    <th class="pt-3"><%=category.id%></th>
+                    <th class="pt-3"><%=category.title%></th>
+                    <th class="pt-3"><%=category.slug %></th>
+                    <th class=" d-flex justify-content-center">                        
+                        <button class="btn btn-warning acoes mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                        
+                        <form method="POST" action="/categories/delete" style="display: inline;" onsubmit="confirmDelete(event, this)">
+                            <input type="hidden" name="id" value="<%= category.id %>">
+                            <button class="btn btn-danger acoes"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                    </th>
                 </tr>
             <% }) %>
         </tbody>    
@@ -30,3 +38,12 @@
 </div>
 
 <%- include ('../../partials/footer.ejs') %>
+<script>
+    function confirmDelete(event, form){
+        event.preventDefault();
+        var decision = confirm("Você quer deletar esta categoria?");
+        if(decision){
+            form.submit();
+        }
+    }
+</script>
