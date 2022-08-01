@@ -14,13 +14,16 @@
                 <th>Açoes</th>
             </tr>
         </thead>    
-        <tbody>
-            <tr>
-                <th>1</th>
-                <th>Dev Web</th>
-                <th>Dev-Web</th>
-                <th></th>
-            </tr>
+        <tbody>         
+
+            <% categories.forEach(category => { %>
+                <tr>
+                    <th><%=category.id%></th>
+                    <th><%=category.title%></th>
+                    <th><%=category.slug %></th>
+                    <th></th>
+                </tr>
+            <% }) %>
         </tbody>    
     </table>
 
