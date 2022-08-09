@@ -16,7 +16,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // Body parser
-app.use(bodyParser.urlencoded({extendd: false}));
+app.use(bodyParser.urlencoded({ extendd: false }));
 app.use(bodyParser.json());
 
 // Database
@@ -28,7 +28,7 @@ connection
         console.log(error);
     });
 
-app.use("/",categoriesController);
+app.use("/", categoriesController);
 
 app.use("/", articlesController);
 
@@ -39,51 +39,51 @@ app.get("/", (req, res) => {
             ['id', 'DESC']
         ],
         limit: 4
-    }).then(articles =>{
-        
+    }).then(articles => {
+
         Category.findAll().then(categories => {
-            res.render("index", {articles: articles, categories: categories});
+            res.render("index", { articles: articles, categories: categories });
         });
-        
+
     });
 });
 
-app.get("/:slug", (req,res)=>{
+app.get("/:slug", (req, res) => {
     var slug = req.params.slug;
     Article.findOne({
-        where:{
+        where: {
             slug: slug
         }
     }).then(article => {
-        if(article != undefined){
+        if (article != undefined) {
             Category.findAll().then(categories => {
-                res.render("article", {article: article, categories: categories});
+                res.render("article", { article: article, categories: categories });
             });
         }
-        else{
+        else {
             res.redirect("/");
         }
-    }).catch( err => {
+    }).catch(err => {
         res.redirect("/");
     });
 });
 
-app.get("/category/:slug", (req,res) =>{
+app.get("/category/:slug", (req, res) => {
     var slug = req.params.slug;
     Category.findOne({
         where: {
             slug: slug
         },
-        include: [{model:Article}]
-    }).then( category => {
-        if(category != undefined){
+        include: [{ model: Article }]
+    }).then(category => {
+        if (category != undefined) {
 
             Category.findAll().then(categories => {
-                res.render("index",{articles: category.articles, categories: categories})
+                res.render("index", { articles: category.articles, categories: categories })
             });
         }
-        else{
-            res.redirect("/");        
+        else {
+            res.redirect("/");
         }
     });
 });
